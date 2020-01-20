@@ -65,7 +65,7 @@ class URLShortenerController extends Controller
      */
     public function show(URLShortener $uRLShortener)
     {
-        //
+        return response()->json(['urls' => $uRLShortener::all()],201);
     }
 
 

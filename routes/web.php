@@ -13,4 +13,5 @@
 
 Route::get('/{id}', 'URLShortenerController@redirectShortlinks');
 Route::get('api/create','URLShortenerController@create');
+Route::get('api/showlinks','URLShortenerController@show');
 Route::post('api/createurl', 'URLShortenerController@store')->name('createlink');
