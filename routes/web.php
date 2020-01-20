@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/{id}', 'URLShortenerController@redirectShortlinks');
+Route::get('api/create','URLShortenerController@create');
+Route::post('api/createurl', 'URLShortenerController@store')->name('createlink');

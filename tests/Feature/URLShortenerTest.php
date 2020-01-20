@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class URLShortenerTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
     /**
      * A basic feature test example.
      *
@@ -20,6 +20,14 @@ class URLShortenerTest extends TestCase
 
         $this->assertDatabaseHas('u_r_l_shorteners', [
             'long_url' => $url->long_url
+        ]);
+    }
+
+    public function testCreateUrl()
+    {
+        $response = $this->postJson('/createurl',['url'=> $this->faker->url]);
+        $response->assertStatus(201)->assertJson([
+            'created' => true,
         ]);
     }
 }
