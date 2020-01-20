@@ -16,7 +16,7 @@ class URLShortenerController extends Controller
      */
     public function create()
     {
-        //
+        return view('urlshort');
     }
 
     /**
@@ -28,8 +28,30 @@ class URLShortenerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "url" => 'required|url'
+            "url" => 'required|url|unique:App\URLShortener,long_url'
         ]);
+        // store the requested url 
+        $urlshort = new URLShortener;
+        $urlshort->long_url= $request->url;
+        $urlshort->save();
+
+        $shortlinkcode = $this->createShortLinkCode($urlshort->id); // create the short link
+        $updateurlshort = URLShortener::find($urlshort->id);
+        $updateurlshort->short_url = $shortlinkcode;      
+        $updateurlshort->save();
+
+        return response()->json(['url' => env('APP_URL').'/'.$shortlinkcode, "created"=>true],201);
+    }
+
+    /**
+     * Create a short link code 
+     * @param  id of the recent inserted link into a record
+     * @return a code to append for the link
+     */
+    public function createShortLinkCode($id)
+    {
+        $shorturl= substr(uniqid(),-4,4);
+        return $shorturl.'-'.$id;
     }
 
     /**
@@ -45,15 +67,11 @@ class URLShortenerController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\URLShortener  $uRLShortener
-     * @return \Illuminate\Http\Response
+     * Redirect the short links
      */
-    public function update(Request $request, URLShortener $uRLShortener)
+    public function redirectShortlinks(Request $request)
     {
-        //
+        return dd($request->path());
     }
 
     /**
