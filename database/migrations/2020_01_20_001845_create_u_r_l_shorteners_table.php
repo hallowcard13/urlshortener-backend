@@ -15,6 +15,8 @@ class CreateURLShortenersTable extends Migration
     {
         Schema::create('u_r_l_shorteners', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('long_url');
+            $table->string('short_url',100);
             $table->timestamps();
         });
     }
