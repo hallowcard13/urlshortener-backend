@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 class URLShortenerController extends Controller
 {
    
-
+    public function __construct()
+    {
+        $this->middleware('checkshortlinks')->only('redirectShortlinks');
+    }
     /**
      * Show the form for creating a new url.
      *
@@ -71,7 +74,10 @@ class URLShortenerController extends Controller
      */
     public function redirectShortlinks(Request $request)
     {
-        return dd($request->path());
+        $explodeit = explode('-', $request->id);
+        $urls = URLShortener::find((int)$explodeit[1]);
+        //return dd($urls->long_url);
+        return redirect()->away($urls->long_url);
     }
 
     /**
