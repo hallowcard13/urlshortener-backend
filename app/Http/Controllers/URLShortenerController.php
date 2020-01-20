@@ -7,18 +7,10 @@ use Illuminate\Http\Request;
 
 class URLShortenerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+   
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new url.
      *
      * @return \Illuminate\Http\Response
      */
@@ -28,14 +20,16 @@ class URLShortenerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Validate and Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "url" => 'required|url'
+        ]);
     }
 
     /**
@@ -49,16 +43,6 @@ class URLShortenerController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\URLShortener  $uRLShortener
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(URLShortener $uRLShortener)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
